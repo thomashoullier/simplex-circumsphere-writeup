@@ -4,7 +4,7 @@ computation of the n-simplex circumsphere.
 
 See the following links:
 * [simplex-circumsphere](https://github.com/thomashoullier/simplex-circumsphere)
-* [Write-up PDF] TODO
+* The PDF for the write-up may be found [here](https://thomashoullier.com/writeups/simplex-circumsphere/simplex-circumsphere.html).
 
 ## Compile LaTeX
 Compile the document with, while in the same folder as `main.tex`:
