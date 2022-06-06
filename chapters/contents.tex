@@ -1,11 +1,5 @@
-\begin{abstract}
-We provide a short note on the computation of a n-simplex circumsphere. This is
-adapted from a blog post by Gautam Manohar and another blog post by G.
-Westendorp. Please note that I am not a mathematician and that I have not
-checked in depth the claims I make.
-\end{abstract}
-
-Let:
+\section{Notations}
+We will refer to:
 \begin{itemize}
 \item $n$ the dimensionality
 \item A simplex with $n+1$ vertices
@@ -15,62 +9,62 @@ Let:
 \end{itemize}
 
 \section{Method 1: Circumsphere equation}
-Any vertex $V_i$ is on the circumsphere, so $\forall i$, it obeys eq
-(\ref{vertex-on-sphere}).
+This method is taken from a blog post by Gautam Manohar \cite{Gautam:2019}.
+Any vertex $V_i$ is on the circumsphere (\cref{eq:vertex-on-sphere}),
 
-\begin{equation} \label{vertex-on-sphere}
-\sum_j \left( V_i^j - C^j \right)^2 = R^2
+\begin{equation} \label{eq:vertex-on-sphere}
+\forall i, \sum_j \left( V_i^j - C^j \right)^2 = R^2
 \end{equation}
 
-Arbitrarily, we take the first equation, for the first vertex $i=0$, and
-subtract it from all the others. Then $\forall i \in \llbracket 1, n
-\rrbracket$, we have eq (\ref{row-equations}) after some expansion and
-cancellation of terms.
+Arbitrarily, we take the first equation, for the first vertex $V_{0}$, and
+subtract it from all the others. After some expansion and cancellation of terms,
+we obtain \cref{eq:row-equations}.
 
-\begin{equation} \label{row-equations}
+\begin{equation} \label{eq:row-equations}
+\forall i \in \llbracket 1, n \rrbracket,
 2 \sum_j \left( V_0^j - V_i^j \right) \cdot C^j =
   \sum_j \left( V_0^j \right)^2 - \sum_j \left( V_i^j \right)^2
 \end{equation}
 
-This is readily expressed in matrix format, with each $i$ being a row
-in a linear system of equations (\ref{matrix-system}).
+This is readily expressed in matrix format, with $i$ indexing the rows
+in a linear system of equations (\cref{eq:matrix-system}).
 
-\begin{equation} \label{matrix-system}
+\begin{equation} \label{eq:matrix-system}
 A \cdot x = b
 \end{equation}
 
 With:
 \begin{itemize}
-\item $A$ a square matrix with elements $A_{i,j}$ (\ref{a})
-\item $x$ the vector of $C^j$ coordinates.
-\item $b$ a right hand side vector defined by eq (\ref{b})
+\item $A$ a square matrix with elements $A_{i,j}$, of size $n$ (\cref{eq:a})
+\item $x$ the vector of $C^j$ coordinates, of length $n$.
+\item $b$ a right hand side vector defined by \cref{eq:b}, of length $n$.
 \end{itemize}
 
-\begin{equation} \label{a}
+\begin{equation} \label{eq:a}
 A_{i,j} = 2 \left( V_0^j - V_i^j \right)
 \end{equation}
 
-\begin{equation} \label{b}
+\begin{equation} \label{eq:b}
 b_{i} = \sum_j \left( V_0^j \right)^2 - \sum_j \left( V_i^j \right)^2
 \end{equation}
 
-We can solve for $x = C$ using any linear equation solver. Next we can
+We can solve for $x = C$ using any linear equation solver. Next, we can
 retrieve $R$ from the distance of any vertex from the center, for example
-eq (\ref{radius}).
+eq (\cref{eq:radius}).
 
-\begin{equation} \label{radius}
+\begin{equation} \label{eq:radius}
 R = \sqrt{\sum_j \left( V_0^j - C^j \right)^2}
 \end{equation}
 
 Thus, we have computed the center $C$ of the circumsphere, and $R$ its radius.
 
 \section{Method 2: Cayley-Menger matrix}
-As noted by Westendorp, building on a work by Coxeter (please refer to his
-blog post for the proof). We can compute the circumsphere of a simplex
-with the aid of the Cayley-Menger matrix. The Cayley-Menger matrix is
-given in eq \ref{cm}.
+As noted by Westendorp \cite{Westendorp:2013}, building on a work by Coxeter
+\cite{Coxeter:1930}, we can compute the circumsphere of a simplex with the aid
+of the Cayley-Menger matrix.  The Cayley-Menger matrix is given by
+\cref{eq:cm}.
 
-\begin{equation} \label{cm}
+\begin{equation} \label{eq:cm}
 CM = \begin{bmatrix}
 0 & 1 & 1 & 1 & \dots \\
 1 & 0 & d_0^1 & d_0^2 & \dots \\
@@ -83,15 +77,15 @@ CM = \begin{bmatrix}
 with $d_i^j = \sum_k \left( V_i^k - V_j^k \right)^2$, the squared distance
 between vertices $V_i$ and $V_j$.
 
-Then, the radius of the circumsphere is given by eq \ref{cm-radius}, the
-circumcenter by eq \ref{cm-coords} (please refer to the blog post by Westendorp
-for the proof).
+Then, the radius of the circumsphere is given by \cref{eq:cm-radius}, the
+circumcenter by \cref{eq:cm-coords} (please refer to \cite{Westendorp:2013} for
+the proof).
 
-\begin{equation} \label{cm-radius}
+\begin{equation} \label{eq:cm-radius}
 R = \sqrt{- \frac{1}{2} \cdot {CM^{-1}}_{1,1}}
 \end{equation}
 
-\begin{equation} \label{cm-coords}
+\begin{equation} \label{eq:cm-coords}
 x_j = {CM^{-1}}_{1,j+1}
 \end{equation}
 
@@ -99,25 +93,30 @@ Note that we only need the first row of the inverse $CM$ matrix, not the whole
 inverse. Also note that $CM$ is symmetric, which enables simpler decompositions
 for the inversion operation. $CM$ is \emph{indefinite} (proof omitted).
 Since $CM$ is square symmetric, but not positive-definite, the most efficient
-decomposition to perform the inverse, to the best of my knowledge is the
-Bunch–Kaufman decomposition, which is only slightly better than LUP.
+decomposition to perform the inverse, to the best of my knowledge, is the
+Bunch–Kaufman decomposition \cite{Bunch:1976}, which is only slightly better
+than LUP \cite{wiki:lu-decomposition}.
+
+See also the Cayley-Menger determinant \cite{wiki:cayley-menger-determinant}
+for the link between the Cayley-Menger matrix and the volume (or
+\emph{content}) of n-simplices.
 
 \section{Method tradeoff}
 Starting from a list of vertices coordinates $V_i^j$, which method is the most
 efficient computationally? Let's count operations to make sure.
 
-\begin{itemize}
+\begin{minipage}{\textwidth} \begin{itemize}
 \item Method 1: \begin{itemize}
 \item $A$: $n^2$ subtractions
 \item $b$: $n(n+1)$ squares, $(n-1)(n+1)$ sums, $n$ subtractions
-\item LUP decomposition and solve.
+\item LUP decomposition \cite{wiki:lu-decomposition} and solve.
 \end{itemize}
 \item Method 2: \begin{itemize}
 \item Distance squared for one pair of vertices: $(n-1)$ subtractions, $(n-1)$
       squares, $(n-1)$ sums.
 \item Number of unique pairs with non-zero distance: $n(n-1)/2$
-\item Bunch-Kaufman decomposition and solve.
-\end{itemize} \end{itemize}
+\item Bunch-Kaufman decomposition \cite{Bunch:1976} and solve.
+\end{itemize} \end{itemize} \end{minipage}
 
 Long story short, the setup for the first method is $\mathcal{O}(n^2)$ in time,
 the second method is $\mathcal{O}(n^3)$. Both decompositions are
